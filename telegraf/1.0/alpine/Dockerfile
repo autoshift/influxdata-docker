@@ -13,11 +13,13 @@ RUN apk add --no-cache --virtual .build-deps wget gnupg tar && \
     gpg --batch --verify telegraf-${TELEGRAF_VERSION}-static_linux_amd64.tar.gz.asc telegraf-${TELEGRAF_VERSION}-static_linux_amd64.tar.gz && \
     mkdir -p /usr/src /etc/telegraf && \
     tar -C /usr/src -xzf telegraf-${TELEGRAF_VERSION}-static_linux_amd64.tar.gz && \
-    mv /usr/src/telegraf*/telegraf.conf /etc/telegraf/ && \
+    # mv /usr/src/telegraf*/telegraf.conf /etc/telegraf/ && \
     chmod +x /usr/src/telegraf*/* && \
     cp -a /usr/src/telegraf*/* /usr/bin/ && \
     rm -rf *.tar.gz* /usr/src /root/.gnupg && \
     apk del .build-deps
+
+COPY telegraf.conf /etc/telegraf/
 
 EXPOSE 8125/udp 8092/udp 8094
 
